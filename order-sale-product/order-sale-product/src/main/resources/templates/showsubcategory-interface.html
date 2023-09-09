@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+  <title>Sub Category Interface</title>
+</head>
+<body>
+<div class="container">
+
+  <h3>Sub Category Directory</h3>
+  <hr>
+
+
+  <table class="table table-bordered table-striped">
+    <thead class="table-dark">
+    <tr>
+      <th>Id</th>
+      <th>Sub Category Name</th>
+      <th>Price</th>
+      <th>category Id</th>
+      <th>category Name</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="tempSubCategory : ${category1}">
+
+      <td th:text="${tempSubCategory.subCategoryId}" />
+      <td th:text="${tempSubCategory.subCategoryName}" />
+      <td th:text="${tempSubCategory.price}" />
+      <td th:text="${tempSubCategory.category.categoryId}" />
+      <td th:text="${tempSubCategory.category.categorName}" />
+
+    </tr>
+    </tbody>
+  </table>
+  <hr>
+  <a th:href="@{/productInterface}">Back to Category List</a>
+</div>
+</body>
+</html>

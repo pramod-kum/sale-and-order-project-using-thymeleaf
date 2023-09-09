@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+  <title>User Interface</title>
+</head>
+<body>
+<div class="container">
+
+  <h3>User Directory</h3>
+  <hr>
+  <!-- Add a button -->
+  <a th:href="@{/addUser}" class="btn btn-primary btn-sm mb-3">Add User</a>
+  <a th:href="@{/orderInterface}" class="btn btn-primary btn-sm mb-3">Show Order</a>
+
+  <div class="d-flex justify-content-end">
+    <a th:href="@{/productInterface}" class="btn btn-success">GO TO PRODUCT DIRECTORY</a>
+  </div>
+
+  <table class="table table-bordered table-striped">
+    <thead class="table-dark">
+    <tr>
+      <th>Id</th>
+      <th>User Name</th>
+      <th>Email Id</th>
+      <th>Phone Number</th>
+      <th>Address</th>
+      <th>Pin Code</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="userCategory : ${user123}">
+
+      <td th:text="${userCategory.userId}" />
+      <td th:text="${userCategory.userName}" />
+      <td th:text="${userCategory.userEmail}" />
+      <td th:text="${userCategory.userPhone}" />
+      <td th:text="${userCategory.userAddress}" />
+      <td th:text="${userCategory.userPinCode}" />
+
+      <!-- Add Option Box -->
+      <td>
+        <a>
+          <form class="category-form" action="/submit" method="post">
+            <input type="hidden" name="intCategorIdValue" th:value="${userCategory.userId}">
+            <div class="row-category">
+              <label for="category">Category:</label>
+              <select class="category-select" id="category" name="category">
+                <option value="">Select a category</option> <!-- Default option -->
+                <option th:each="category : ${categories}" th:value="${category.categoryId}" th:text="${category.categorName}"></option>
+              </select>
+            </div>
+            <div class="row-category">
+              <label for="subcategory">Subcategory:</label>
+              <select class="subcategory-select" id="subcategory" name="subcategory">
+                <option value="">Select a subcategory</option> <!-- Default option -->
+              </select>
+            </div>
+            <!-- Hidden input field to store the selected subcategory ID -->
+            <input type="hidden" class="selected-subcategory" name="selectedSubcategoryId" value="">
+            <!-- Submit Button -->
+            <input type="button" value="Submit" class="submit-button" id="submitButton">
+          </form>
+        </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Handle category selection changes for all rows
+        $(document).on("change", ".category-select", function () {
+            var categoryId = $(this).val();
+            var subcategoryDropdown = $(this).closest(".category-form").find(".subcategory-select");
+            var selectedSubcategoryIdInput = $(this).closest(".category-form").find(".selected-subcategory");
+
+            if (categoryId === "") {
+                // If "Select a category" is selected, hide all subcategories and reset the hidden input field
+                subcategoryDropdown.empty();
+                subcategoryDropdown.append("<option value=''>Select a subcategory</option>");
+                selectedSubcategoryIdInput.val("");
+            } else {
+                // Load subcategories for the selected category and reset the hidden input field
+                $.get("/subcategories?categoryId=" + categoryId, function (data) {
+                    subcategoryDropdown.empty();
+                    subcategoryDropdown.append("<option value=''>Select a subcategory</option>");
+                    $.each(data, function (index, subcategory) {
+                        subcategoryDropdown.append("<option value='" + subcategory.subCategoryId + "'>" + subcategory.subCategoryName + "</option>");
+                    });
+                    // Reset the hidden input field when a new category is selected
+                    selectedSubcategoryIdInput.val("");
+                });
+            }
+        });
+
+        // Handle subcategory selection changes for all rows
+        $(document).on("change", ".subcategory-select", function () {
+            var selectedSubcategoryId = $(this).val();
+            $(this).closest(".category-form").find(".selected-subcategory").val(selectedSubcategoryId);
+        });
+
+        // Handle form submission for all rows when the button is clicked
+        $(document).on("click", ".submit-button", function () {
+            var categoryDropdown = $(this).closest(".category-form").find(".category-select");
+            var subcategoryDropdown = $(this).closest(".category-form").find(".subcategory-select");
+
+            // Check if neither category nor subcategory is selected
+            if (categoryDropdown.val() === "" || subcategoryDropdown.val() === "") {
+                //alert("Please select both a category and a subcategory before submitting.");
+                   Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please select both a category and a subcategory before submitting.',
+                    footer: '<a href="">Why do I have this issue?</a>'
+                });
+                return; // Prevent form submission
+            }
+
+            // Submit the form within the same row
+            $(this).closest(".category-form").submit();
+        });
+    });
+</script>
+</body>
+</html>

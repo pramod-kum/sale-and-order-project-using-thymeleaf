@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+  <title>Order Interface</title>
+</head>
+<body>
+<div class="container">
+
+  <h3>Order Directory</h3>
+  <hr>
+
+
+  <table class="table table-bordered table-striped">
+    <thead class="table-dark">
+    <tr>
+      <th>Id</th>
+      <th>User Id</th>
+      <th>Product Id</th>
+      <th>Product Name</th>
+      <th>Product Price</th>
+      <th>User Name</th>
+      <th>User Address</th>
+      <th>User Pin Code</th>
+
+
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="tempOrder : ${order12}">
+
+      <td th:text="${tempOrder.orderId}" />
+      <td th:text="${tempOrder.userss.userId}" />
+      <td th:text="${tempOrder.subCategory.subCategoryId}" />
+      <td th:text="${tempOrder.subCategory.subCategoryName}" />
+      <td th:text="${tempOrder.subCategory.price}" />
+      <td th:text="${tempOrder.userss.userName}" />
+      <td th:text="${tempOrder.userss.userAddress}" />
+      <td th:text="${tempOrder.userss.userPinCode}" />
+
+
+
+
+
+    </tr>
+    </tbody>
+  </table>
+  <hr>
+  <a th:href="@{/userInterface}">Back to User List</a>
+</div>
+</body>
+</html>

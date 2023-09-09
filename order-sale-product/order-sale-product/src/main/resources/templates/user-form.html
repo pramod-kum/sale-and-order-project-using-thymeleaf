@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <title>Save User</title>
+</head>
+<body>
+
+<div class="container">
+
+  <h3>User Directory</h3>
+  <hr>
+  <p class="h4 mb-4">Save user</p>
+  <form action="#" th:action="@{/saveUser}"
+        th:object="${user111}" method="POST">
+
+
+    <input type="hidden" th:field="*{userId}"
+           class="form-control mb-4 w-25" placeholder="Id">
+
+    <input type="text" th:field="*{userName}"
+           class="form-control mb-4 w-25" placeholder="User Name">
+    <input type="text" th:field="*{userEmail}"
+           class="form-control mb-4 w-25" placeholder="Email">
+    <input type="text" th:field="*{userPhone}"
+           class="form-control mb-4 w-25" placeholder="Phone">
+    <input type="text" th:field="*{userAddress}"
+           class="form-control mb-4 w-25" placeholder="Address">
+    <input type="text" th:field="*{userPinCode}"
+           class="form-control mb-4 w-25" placeholder="Pin Code">
+
+
+
+    <button type="submit" class="btn btn-info col-2">save</button>
+  </form>
+  <hr>
+  <a th:href="@{/userInterface}">Back to User List</a>
+</div>
+</body>
+</html>

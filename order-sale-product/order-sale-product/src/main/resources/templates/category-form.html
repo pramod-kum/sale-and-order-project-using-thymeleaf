@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <title>Save Employee</title>
+</head>
+<body>
+
+<div class="container">
+
+  <h3>Category Directory</h3>
+  <hr>
+  <p class="h4 mb-4">Save Category</p>
+  <form action="#" th:action="@{/addCategory}"
+        th:object="${categorys}" method="POST">
+
+
+    <input type="hidden" th:field="*{categoryId}"
+           class="form-control mb-4 w-25" placeholder="Id">
+
+    <input type="text" th:field="*{categorName}"
+           class="form-control mb-4 w-25" placeholder="Categor Name">
+
+
+
+    <button type="submit" class="btn btn-info col-2">save</button>
+  </form>
+  <hr>
+  <a th:href="@{/productInterface}">Back to Category List</a>
+</div>
+</body>
+</html>
